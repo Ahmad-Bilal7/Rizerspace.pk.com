@@ -79,3 +79,5 @@ app.listen(PORT, () => {
   console.log(`\n🚀 RizerSpace API running → http://localhost:${PORT}`);
   console.log(`📡 Health check → http://localhost:${PORT}/api/health\n`);
 });
+
+module.exports = app;
