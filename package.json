@@ -34,6 +34,7 @@
   "devDependencies": {
     "concurrently": "^10.0.0",
     "mongodb-memory-server": "^11.2.0",
-    "nodemon": "^3.1.4"
+    "nodemon": "^3.1.4",
+    "vercel": "^54.9.1"
   }
 }

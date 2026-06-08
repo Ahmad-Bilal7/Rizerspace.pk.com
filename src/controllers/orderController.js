@@ -2,7 +2,7 @@ const Order = require("../models/Order");
 const Product = require("../models/Product");
 const Coupon = require("../models/Coupon");
 const { createNotification } = require("../utils/notification");
-const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+const stripe = process.env.STRIPE_SECRET_KEY ? require("stripe")(process.env.STRIPE_SECRET_KEY) : null;
 
 const FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost:5173";
 
@@ -167,8 +167,8 @@ const createStripeSession = async (req, res, next) => {
     if (!items || items.length === 0) {
       return res.status(400).json({ error: "No items in order" });
     }
-    if (!process.env.STRIPE_SECRET_KEY) {
-      return res.status(503).json({ error: "Stripe is not configured. Add STRIPE_SECRET_KEY to .env" });
+    if (!stripe) {
+      return res.status(503).json({ error: "Stripe is not configured. Add STRIPE_SECRET_KEY to environment variables" });
     }
 
     const { orderItems, total } = await buildOrderItems(items);
@@ -239,6 +239,9 @@ const verifyStripePayment = async (req, res, next) => {
   const { orderId, sessionId } = req.body;
 
   try {
+    if (!stripe) {
+      return res.status(503).json({ error: "Stripe is not configured. Add STRIPE_SECRET_KEY to environment variables" });
+    }
     if (!orderId || !sessionId) {
       return res.status(400).json({ error: "orderId and sessionId are required" });
     }
