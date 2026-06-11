@@ -15,6 +15,9 @@ connectDB();
 const app = express();
 const PORT = process.env.PORT || 4000;
 
+// Trust reverse proxy (Vercel) for rate limiting and IP verification
+app.set("trust proxy", 1);
+
 // ── Security & Performance Middleware ───────────────────────────────────────
 app.use(helmet({
   contentSecurityPolicy: {
