@@ -1,0 +1,9 @@
+node_modules
+npm-debug.log
+frontend
+.git
+.github
+.vercel
+*.md
+.env
+.env.*
