@@ -78,9 +78,13 @@ app.get("/api/health", (req, res) => {
 // ── Global Error Handler ────────────────────────────────────────────────────
 app.use(errorHandler);
 
-app.listen(PORT, () => {
-  console.log(`\n🚀 RizerSpace API running → http://localhost:${PORT}`);
-  console.log(`📡 Health check → http://localhost:${PORT}/api/health\n`);
-});
+// On Vercel (serverless) we just export the app — no listener needed.
+// For local dev / Docker we start the HTTP server normally.
+if (!process.env.VERCEL) {
+  app.listen(PORT, () => {
+    console.log(`\n🚀 RizerSpace API running → http://localhost:${PORT}`);
+    console.log(`📡 Health check → http://localhost:${PORT}/api/health\n`);
+  });
+}
 
 module.exports = app;

@@ -70,7 +70,8 @@ const connectDB = async () => {
 
   } catch (error) {
     console.error(`🚨 MongoDB Connection Error: ${error.message}`);
-    process.exit(1);
+    // Don't call process.exit(1) in serverless — throw so caller can handle
+    throw error;
   }
 };
 
